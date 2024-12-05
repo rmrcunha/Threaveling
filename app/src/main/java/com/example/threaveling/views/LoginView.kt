@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -54,27 +55,29 @@ fun LoginView(navController: NavController){
                         ){
                                 OutlinedCard(
                                         Modifier.background(color = Color.White)
+                                                .fillMaxWidth(),
                                 ){
                                         Column(
                                                 Modifier
-                                                        .background(color = Color.White),
+                                                        .background(color = Color.White)
+                                                        .fillMaxWidth(),
                                                 verticalArrangement = Arrangement.Center,
                                                 horizontalAlignment = Alignment.CenterHorizontally
                                         ){
                                                 Text(
                                                         text = "Threaveling",
-                                                        fontWeight = FontWeight.Bold,
+                                                        fontWeight = FontWeight.Black,
                                                         fontSize = 25.sp,
                                                         fontFamily = FontFamily.Serif,
-                                                        modifier = Modifier.padding().padding(10.dp)
+                                                        modifier = Modifier.padding().padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp),
 
                                                 )
                                                 TextInput(value = email,
                                                         {email = it},
                                                         Modifier
-                                                        .size(width = 320.dp, height = 85.dp)
+                                                        .size(width = 390.dp, height = 85.dp)
                                                         .padding()
-                                                        .padding(10.dp)
+                                                        .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
                                                         .fillMaxSize()
                                                         .background(color = WHITE) ,
                                                         label = "Email")
@@ -82,9 +85,9 @@ fun LoginView(navController: NavController){
                                                 TextInput(value = password,
                                                         {password = it},
                                                         Modifier
-                                                                .size(width = 320.dp, height = 85.dp)
+                                                                .size(width = 390.dp, height = 85.dp)
                                                                 .padding()
-                                                                .padding(10.dp)
+                                                                .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
                                                                 .fillMaxSize()
                                                                 .background(color = WHITE) ,
                                                         label = "Password",
@@ -92,16 +95,16 @@ fun LoginView(navController: NavController){
 
                                                 AppButton({ TODO("Autenticacao")},
                                                         text = "Login",
-                                                        modifier = Modifier.size(width = 300.dp, height = 55.dp)
+                                                        modifier = Modifier.size(width = 390.dp, height = 55.dp)
                                                         .padding()
-                                                        .padding(10.dp)
+                                                        .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
                                                         .fillMaxSize()
                                                 )
                                                 AppButton({  navController.navigate("SignUp")},
                                                         text = "Sign up",
-                                                        modifier = Modifier.size(width = 300.dp, height = 55.dp)
+                                                        modifier = Modifier.size(width = 390.dp, height = 55.dp)
                                                                 .padding()
-                                                                .padding(10.dp)
+                                                                .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
                                                                 .fillMaxSize()
                                                 )
 
