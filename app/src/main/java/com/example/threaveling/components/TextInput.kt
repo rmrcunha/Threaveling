@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -24,7 +25,8 @@ fun TextInput(
     onValueChange:(String) -> Unit,
     modifier: Modifier,
     label:String,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ){
     OutlinedTextField(
         value = value,
@@ -38,7 +40,8 @@ fun TextInput(
                 focusedBorderColor = LIGHT_BLUE,
                 unfocusedTextColor = BLACK,),
         shape = RoundedCornerShape(48.dp),
-        visualTransformation = visualTransformation
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions
     )
 }
 

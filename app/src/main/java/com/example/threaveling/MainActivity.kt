@@ -7,8 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.threaveling.FirebaseAuthentication.FirebaseAuthentication
 import com.example.threaveling.ui.theme.ThreavelingTheme
-import com.example.threaveling.views.FeedView
+import com.example.threaveling.views.*
 import com.example.threaveling.views.LoginView
 import com.example.threaveling.views.SignUpView
 
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
             ThreavelingTheme {
                 val navController = rememberNavController()
 
-                NavHost(navController = navController, startDestination = "Login"){
+                NavHost(navController = navController, startDestination = if(FirebaseAuthentication.isAuthenticated()){"Home"} else{"Login"}){
                     composable(
                         route = "Login"
                     ){
@@ -32,9 +33,9 @@ class MainActivity : ComponentActivity() {
                         SignUpView(navController)
                     }
                     composable(
-                        route = "Feed"
+                        route = "Home"
                     ){
-                        FeedView(navController)
+                        HomeView(navController)
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.threaveling.views
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,21 +30,32 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.threaveling.FirebaseAuthentication.AuthenticationCallback
+import com.example.threaveling.FirebaseAuthentication.FirebaseAuthentication
 import com.example.threaveling.R
 import com.example.threaveling.components.AppButton
 import com.example.threaveling.components.SocialLogButton
 import com.example.threaveling.components.TextInput
+import com.example.threaveling.models.UserModel
 import com.example.threaveling.ui.theme.WHITE
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginView(navController: NavController){
-        Scaffold(containerColor = WHITE){
+        val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState,
+                )
+        },
+                containerColor = WHITE){
                 innerPadding ->
                         var email by remember { mutableStateOf("")}
                         var password by remember { mutableStateOf("") }
@@ -80,7 +96,9 @@ fun LoginView(navController: NavController){
                                                         .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
                                                         .fillMaxSize()
                                                         .background(color = WHITE) ,
-                                                        label = "Email")
+                                                        label = "Email",
+                                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                                                )
 
                                                 TextInput(value = password,
                                                         {password = it},
@@ -93,7 +111,33 @@ fun LoginView(navController: NavController){
                                                         label = "Password",
                                                         visualTransformation = PasswordVisualTransformation())
 
-                                                AppButton({ TODO("Autenticacao")},
+                                                AppButton({
+                                                        if(email.isEmpty() || password.isEmpty()){
+                                                                scope.launch {
+                                                                        snackbarHostState.showSnackbar("Preencha todos os campos corretamente")
+                                                                }
+                                                        }
+                                                        else{
+                                                                FirebaseAuthentication.signInWithEmailAndPassword(email = email,
+                                                                        password = password,
+                                                                        navController = {navController.navigate("Home")},
+                                                                        object : AuthenticationCallback {
+                                                                                override fun onSuccess(user: UserModel) {
+                                                                                        Log.d("AuthCallbackLogin",  "Login efetuado com sucesso")
+                                                                                        scope.launch {
+                                                                                                snackbarHostState.showSnackbar("Login efetuado com sucesso")
+                                                                                        }
+                                                                                }
+
+                                                                                override fun onFailure(errorMessage: String) {
+                                                                                        Log.e("AuthCallbackLogin", "Erro ao criar usuário: $errorMessage")
+                                                                                        scope.launch {
+                                                                                                snackbarHostState.showSnackbar(errorMessage)
+                                                                                        }
+                                                                                }
+                                                                        }
+                                                                )
+                                                        }},
                                                         text = "Login",
                                                         modifier = Modifier.size(width = 390.dp, height = 55.dp)
                                                         .padding()
