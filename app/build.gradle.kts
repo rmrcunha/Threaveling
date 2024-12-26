@@ -1,9 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 
     id("com.google.gms.google-services")
+
 }
+val tomtomApiKey: String by project
 
 android {
     namespace = "com.example.threaveling"
@@ -11,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.threaveling"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -19,6 +22,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        buildFeatures {
+            buildConfig = true
+        }
+        buildTypes.configureEach {
+            buildConfigField("String", "TOMTOM_API_KEY","\"$tomtomApiKey\"")
+        }
+        packaging {
+            jniLibs.pickFirsts.add("lib/**/libc++_shared.so")
         }
     }
 
@@ -42,12 +54,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        jniLibs.pickFirsts.add("lib/**/libc++_shared.so")
+
     }
 }
 
@@ -72,10 +86,15 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore:25.1.1")
 
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
+
+    //TomTom
+    val version = "1.21.0"
+    implementation(libs.map.display)
+    implementation(libs.search.online)
 }
