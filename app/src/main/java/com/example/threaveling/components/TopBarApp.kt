@@ -37,7 +37,7 @@ fun TopBarApp(title:String ,
                 overflow = TextOverflow.Ellipsis
             ) },
         navigationIcon = {
-            if (hasBack == true){
+            if (hasBack){
                 IconButton(onClick = { onClickBack()}) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.baseline_arrow_back_24),
@@ -47,7 +47,7 @@ fun TopBarApp(title:String ,
             }
         },
         actions = {
-            if(hasOption == true){
+            if(hasOption){
                 IconButton(onClick = {
                     isExpanded.value = !isExpanded.value
                 }) {

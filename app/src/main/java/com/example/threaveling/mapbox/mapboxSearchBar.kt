@@ -6,7 +6,7 @@ import com.mapbox.search.autocomplete.PlaceAutocomplete
 import com.mapbox.search.autocomplete.PlaceAutocompleteOptions
 import com.mapbox.search.autocomplete.PlaceAutocompleteType
 
-suspend fun MapboxSearchBar(query: String, placeAutoComplete:PlaceAutocomplete): List<PlaceAutocompleteSuggestion> {
+suspend fun mapboxSearchBar(query: String, placeAutoComplete:PlaceAutocomplete): List<PlaceAutocompleteSuggestion> {
 
     val response = placeAutoComplete.suggestions(
         query = query,
@@ -20,7 +20,6 @@ suspend fun MapboxSearchBar(query: String, placeAutoComplete:PlaceAutocomplete):
 
 
     if (response.isValue) {
-        Log.d("SearchApiExample", "Selecting first suggestion...")
         val suggestions = requireNotNull(response.value)
 
         Log.d("SearchApiExample", "Selected suggestion: \n$suggestions")

@@ -1,4 +1,4 @@
-package com.example.threaveling.FirebaseAuthentication
+package com.example.threaveling.firebaseAuthentication
 
 import com.example.threaveling.models.UserModel
 

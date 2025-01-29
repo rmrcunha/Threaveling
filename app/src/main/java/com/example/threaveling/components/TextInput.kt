@@ -26,14 +26,15 @@ fun TextInput(
     modifier: Modifier,
     label:String,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    lines:Int = 1
 ){
     OutlinedTextField(
         value = value,
         onValueChange,
         modifier,
         label = {Text(label)},
-        maxLines = 1,
+        maxLines = lines,
         colors = OutlinedTextFieldDefaults
             .colors(focusedTextColor = BLACK,
                 focusedLabelColor = LIGHT_BLUE,

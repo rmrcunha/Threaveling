@@ -1,4 +1,4 @@
-package com.example.threaveling.FirebaseAuthentication
+package com.example.threaveling.firebaseAuthentication
 
 import android.util.Log
 import com.example.threaveling.models.UserModel
@@ -9,11 +9,16 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.auth
-//import com.google.firebase.firestore.firestore
 
 object FirebaseAuthentication{
     private var auth: FirebaseAuth = Firebase.auth
     private var TAG = "EmailAndPassword"
+
+    fun isAuthenticated():Boolean = auth.currentUser != null
+
+    fun out() = auth.signOut()
+
+    fun getCurrentUserId():String = auth.currentUser?.uid.toString()
 
      fun createUserWithEmailAndPassword(username:String, email:String, password:String, navController:()->Unit = {}, callback: AuthenticationCallback){
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
@@ -36,7 +41,7 @@ object FirebaseAuthentication{
         }
     }
 
-    fun signInWithEmailAndPassword(email:String, password: String, navController:()->Unit = {}, callback: AuthenticationCallback, ){
+    fun signInWithEmailAndPassword(email:String, password: String, navController:()->Unit = {}, callback: AuthenticationCallback){
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{ task->
             if (task.isSuccessful){
                 Log.d(TAG, "signInUserWithEmailAndPassword:Success")
@@ -52,14 +57,4 @@ object FirebaseAuthentication{
             callback.onFailure(messageError)
         }
     }
-
-     fun isAuthenticated():Boolean{
-         return auth.currentUser != null
-
-    }
-
-    fun out(){
-        return auth.signOut()
-    }
-
 }

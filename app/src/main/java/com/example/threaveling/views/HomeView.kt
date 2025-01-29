@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.threaveling.FirebaseAuthentication.FirebaseAuthentication
+import com.example.threaveling.firebaseAuthentication.FirebaseAuthentication
 import com.example.threaveling.R
 import com.example.threaveling.components.BottomBarApp
 import com.example.threaveling.components.TopBarApp
@@ -33,7 +33,6 @@ fun HomeView(navController:NavController){
                 navController.navigate("Login")
 
             }))
-
 
     Scaffold(
         containerColor = WHITE,
@@ -64,7 +63,6 @@ fun HomeView(navController:NavController){
         }
     ) { innerpadding ->
         Column(Modifier.padding(innerpadding).fillMaxSize()) {
-
         }
 
     }

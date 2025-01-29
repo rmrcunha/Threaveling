@@ -37,13 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.threaveling.FirebaseAuthentication.AuthenticationCallback
-import com.example.threaveling.FirebaseAuthentication.FirebaseAuthentication
+import com.example.threaveling.firebaseAuthentication.AuthenticationCallback
+import com.example.threaveling.firebaseAuthentication.FirebaseAuthentication
 import com.example.threaveling.R
 import com.example.threaveling.components.AppButton
 import com.example.threaveling.components.SocialLogButton
 import com.example.threaveling.components.TextInput
 import com.example.threaveling.models.UserModel
+import com.example.threaveling.ui.theme.LIGHT_BLUE
 import com.example.threaveling.ui.theme.WHITE
 import kotlinx.coroutines.launch
 
@@ -172,14 +173,16 @@ fun SignUpView(navController: NavController) {
                         modifier = Modifier.size(width = 390.dp, height = 55.dp)
                             .padding()
                             .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
-                            .fillMaxSize()
+                            .fillMaxSize(),
+                        color = LIGHT_BLUE
                     )
                     AppButton({  navController.navigate("Login")},
                         text = "Login",
                         modifier = Modifier.size(width = 300.dp, height = 55.dp)
                             .padding()
                             .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
-                            .fillMaxSize()
+                            .fillMaxSize(),
+                        color = LIGHT_BLUE
                     )
 
                     Row {

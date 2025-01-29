@@ -8,13 +8,15 @@ plugins {
 }
 val tomtomApiKey: String by project
 
+
 android {
     namespace = "com.example.threaveling"
     compileSdk = 35
 
     defaultConfig {
+
         applicationId = "com.example.threaveling"
-        minSdk = 26
+        minSdk = 29
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -31,6 +33,13 @@ android {
         }
         packaging {
             jniLibs.pickFirsts.add("lib/**/libc++_shared.so")
+
+            resources {
+                excludes += "google/protobuf/field_mask.proto"
+            }
+        }
+        configurations.all {
+            //exclude (group= "com.google.protobuf", module= "protobuf-javalite")
         }
     }
 
@@ -57,9 +66,6 @@ android {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
         jniLibs.pickFirsts.add("lib/**/libc++_shared.so")
 
     }
@@ -78,9 +84,14 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.ui.test.android)
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+    implementation(libs.transport.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    //androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
@@ -92,9 +103,19 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
+        //Firestore
+    implementation(platform(libs.firebase.bom.v3380))
+    implementation(libs.com.google.firebase.firebase.firestore)
 
-    //TomTom
-    val version = "1.21.0"
-    implementation(libs.map.display)
-    implementation(libs.search.online)
+    //Mapbox
+    implementation(libs.place.autocomplete.v270)
+    implementation (libs.autofill)
+    implementation(libs.mapbox.search.android.v270)
+    implementation (libs.mapbox.search.android.ui)
+
+    //Cloudinary
+    implementation(libs.kotlin.url.gen)
+    implementation("com.cloudinary:kotlin-uploader:1.10.0")
+    implementation("com.cloudinary:kotlin-transformation-builder-sdk:1.5.1")
+
 }
