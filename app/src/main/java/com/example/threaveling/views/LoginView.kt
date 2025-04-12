@@ -123,7 +123,7 @@ fun LoginView(navController: NavController){
                                                                         password = password,
                                                                         navController = {navController.navigate("Home")},
                                                                         object : AuthenticationCallback {
-                                                                                override fun onSuccess(user: UserModel) {
+                                                                                override fun onSuccess(user: String) {
                                                                                         Log.d("AuthCallbackLogin",  "Login efetuado com sucesso")
                                                                                         scope.launch {
                                                                                                 snackbarHostState.showSnackbar("Login efetuado com sucesso")

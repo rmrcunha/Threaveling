@@ -44,6 +44,21 @@ class MainActivity : ComponentActivity() {
                     ){
                         SelectTravelView(navController)
                     }
+                    composable(
+                        route = "UserCreate"
+                    ){
+                        UserCreateView(navController = navController)
+                    }
+                    composable(
+                        route = "PostView"
+                    ){
+                        PostView(navController = navController)
+                    }
+                    composable(
+                        route = "ExpandedPostView"
+                    ){
+                        ExpandedPostView(navController = navController)
+                    }
                 }
             }
         }

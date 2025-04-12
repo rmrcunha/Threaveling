@@ -23,6 +23,7 @@ fun TopBarApp(title:String ,
               hasBack:Boolean = false,
               onClickBack:()->Unit = {} ,
               hasOption:Boolean = false,
+              hasOptionIcon:@Composable ()->Unit = {},
               isExpanded:MutableState<Boolean> = mutableStateOf(false),
               menuItems:List<MenuItem> = listOf()){
     CenterAlignedTopAppBar(
@@ -51,10 +52,15 @@ fun TopBarApp(title:String ,
                 IconButton(onClick = {
                     isExpanded.value = !isExpanded.value
                 }) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.baseline_more_vert_24),
-                        contentDescription = "Localized description"
-                    )
+                    if(hasOptionIcon == {}){
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.baseline_more_vert_24),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                    else{
+                        hasOptionIcon()
+                    }
                 }
 
                 DropDown(isExpanded,menuItems, WHITE, BLACK)

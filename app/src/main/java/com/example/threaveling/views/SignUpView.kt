@@ -59,7 +59,6 @@ fun SignUpView(navController: NavController) {
         },
         containerColor = WHITE){
             innerPadding ->
-        var username by remember {mutableStateOf("")}
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordConfirmation by remember { mutableStateOf("") }
@@ -91,15 +90,6 @@ fun SignUpView(navController: NavController) {
                         modifier = Modifier.padding().padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
 
                     )
-                    TextInput(value = username,
-                        {username = it},
-                        Modifier
-                            .size(width = 390.dp, height = 85.dp)
-                            .padding()
-                            .padding(start = 0.dp, end = 0.dp, top =  10.dp, bottom = 10.dp)
-                            .fillMaxSize()
-                            .background(color = WHITE) ,
-                        label = "Username")
 
                     TextInput(value = email,
                         {email = it},
@@ -137,7 +127,7 @@ fun SignUpView(navController: NavController) {
                     )
 
                     AppButton({
-                        if(email.isEmpty() || username.isEmpty() || password.isEmpty()){
+                        if(email.isEmpty() || password.isEmpty()){
                             scope.launch {
                                 snackbarHostState.showSnackbar("Preencha todos os campos corretamente")
                             }
@@ -147,13 +137,13 @@ fun SignUpView(navController: NavController) {
                             }
                         }
                         else{
-                            FirebaseAuthentication.createUserWithEmailAndPassword(username = username,
+                            FirebaseAuthentication.createUserWithEmailAndPassword(
                                 email = email,
                                 password = password,
-                                navController = {navController.navigate("Home")},
+                                navController = {navController.navigate("UserCreate")},
                                 object : AuthenticationCallback {
-                                    override fun onSuccess(user: UserModel) {
-                                        Log.d("AuthCallback", "Usuário criado com sucesso: ${user.getUsername()}")
+                                    override fun onSuccess(user: String) {
+                                        Log.d("AuthCallback", "Usuário criado com sucesso: ${FirebaseAuthentication.getCurrentUserId()}")
                                         scope.launch {
                                             snackbarHostState.showSnackbar("Usuário criado com sucesso")
                                         }

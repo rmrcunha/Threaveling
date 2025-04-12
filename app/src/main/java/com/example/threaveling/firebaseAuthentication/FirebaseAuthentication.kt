@@ -1,7 +1,6 @@
 package com.example.threaveling.firebaseAuthentication
 
 import android.util.Log
-import com.example.threaveling.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
@@ -16,16 +15,17 @@ object FirebaseAuthentication{
 
     fun isAuthenticated():Boolean = auth.currentUser != null
 
+    fun userEmail() = auth.currentUser?.email.toString()
+
     fun out() = auth.signOut()
 
     fun getCurrentUserId():String = auth.currentUser?.uid.toString()
 
-     fun createUserWithEmailAndPassword(username:String, email:String, password:String, navController:()->Unit = {}, callback: AuthenticationCallback){
+     fun createUserWithEmailAndPassword(email:String, password:String, navController:()->Unit = {}, callback: AuthenticationCallback){
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
             if (task.isSuccessful){
                 Log.d(TAG, "createUserWithEmailAndPassword:Success")
-                val createdUser = UserModel(username, email)
-                callback.onSuccess(createdUser)
+                callback.onSuccess("createdUser")
                 navController()
             }
         }.addOnFailureListener{ exception->
