@@ -2,12 +2,10 @@ package com.example.threaveling.components
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.util.Size
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -38,7 +36,6 @@ import com.example.threaveling.R
 import com.example.threaveling.ui.theme.BLACK
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun uploadRow(onActionRequest: (String) -> Unit = {}):List<Uri>{
 
@@ -92,7 +89,7 @@ fun uploadRow(onActionRequest: (String) -> Unit = {}):List<Uri>{
     return imagesUri
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
+
 @Composable
 @Preview
 fun UploadRowPreview(){

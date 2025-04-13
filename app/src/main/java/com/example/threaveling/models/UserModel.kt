@@ -2,8 +2,11 @@ package com.example.threaveling.models
 
 import java.util.Date
 
-data class UserModel(private var username:String,private val email:String, ){
+data class UserModel(private var username:String = "",
+                     private val email:String = ""
+){
     private val createdAt:Date = Date()
+    private val posts = mutableListOf<Threavel>()
 
     fun getUsername():String = username
     fun getEmail():String = email

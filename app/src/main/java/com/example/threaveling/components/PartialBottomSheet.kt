@@ -2,10 +2,8 @@ package com.example.threaveling.components
 
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.threaveling.cloudinary.CloudinaryUpload
+import com.example.threaveling.firebaseAuthentication.FirebaseAuthentication.getCurrentUserId
 import com.example.threaveling.models.Threavel
 import com.example.threaveling.repositories.ThreavelRepository
 import com.example.threaveling.ui.theme.LIGHT_BLUE
@@ -38,7 +37,6 @@ import java.util.UUID
 
 const val TAG = "ThreavelPostBottomSheet"
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PartialBottomSheet(navController: NavController, place:String, introduction:String, description:String, stay:String){
     var stayDescription by remember { mutableStateOf(stay) }
@@ -130,14 +128,14 @@ fun PartialBottomSheet(navController: NavController, place:String, introduction:
         )
 
         AppButton(
-
             onClick = {
                 val postId = UUID.randomUUID().toString()
                 newThreavel = Threavel(
                     id = postId,
+                    userId = getCurrentUserId(),
                     destiny = place,
                     introduction = introductionText,
-                    date = Pair(formattedStartDate, formattedEndDate),
+                    date = mapOf("start" to formattedStartDate, "end" to formattedEndDate),
                     detailedDescription = descriptionText,
                     stayDescription = stayDescription,
                     picsNumber = uriList.size,
@@ -159,8 +157,8 @@ fun PartialBottomSheet(navController: NavController, place:String, introduction:
                     scope.launch(Dispatchers.IO) {
                         Log.d(TAG,"Tentativa envio mensagem Step 1 $newThreavel")
                         threavelRepository.savePost(newThreavel){
-                            uriList.forEach { uri ->
-                                CloudinaryUpload.uploadImage(context, uri,postId + "_${uri.lastPathSegment}" , { imageUrl->
+                            uriList.forEachIndexed { index, uri ->
+                                CloudinaryUpload.uploadImage(context, uri,postId + "_${index}" , { imageUrl->
                                     Log.d("Upload", "Upload Success $imageUrl")
                                 }, { error ->
                                     Log.e("Upload", "Upload Error $error")
@@ -190,8 +188,6 @@ fun PartialBottomSheet(navController: NavController, place:String, introduction:
 
 }
 
-
-@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun PartialBottomSheetPreview(){
